@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<HTML>
+    <HEAD>
+        <title>test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta charset="utf-8"/>
+        
+        <style>
+            body{
+                position: relative;
+                background-color: black;
+                overflow: hidden;
+            }
+            h1{
+                color:#FFFFFF;
+            }
+            .camera_set{
+                float: left;
+            }
+            .cursor_item {
+                position:absolute;
+                top:0;
+                left: 0;
+                margin: -15px -20px;
+                /*transition: all 500ms cubic-bezier(0.740, 0.005, 0.255, 0.995)*/;
+            }
+            /*img{
+                width: 100px;
+                height: 100px;
+                float:right;
+                transform: rotate(100deg);
+            }*/
+            .human{
+                position: fixed;
+                left: calc(50% - 150px);
+                top: calc(57%);
+                width: 160px;
+                margin-top: 0px;
+                z-index: 100;
+            }
+            .backgr{
+                position: fixed;
+                top: 0%;
+                left: 0%;
+                width: 100%;
+                height: 100%;
+            }
+           .camera{
+                position: fixed;
+                width: 850px;
+                height: 700px;
+                top: 50%;
+                left: 50%;
+                margin-top: -350px; /* Negative half of height. */
+                margin-left: -425px; /* Negative half of width. */
+           } 
+           .light{
+                position: fixed;
+                left: calc(50% - 150px);
+                top: calc(57%);
+                width: 400px;
+                margin-top: 0px;
+                z-index: 100;
+           }
+        </style>
+        <script>
+            let x = 0;
+            let y = 0;
+            let mx = 0;
+            let my = 0;
+            let speed = 0.09;
+
+            let h1;
+            let human;
+            let backgr;
+            let camera;
+            let light;
+
+            let isLightOn;
+
+            window.onload = function(){
+                h1 = document.getElementsByTagName("h1")[0];
+                human = document.getElementsByClassName("human")[0];
+                backgr = document.getElementsByClassName("backgr")[0];
+                camera = document.getElementsByClassName("camera")[0];
+                light = document.getElementsByClassName("light")[0];
+
+                window.addEventListener("mousemove",mouseFunc,false);
+                function mouseFunc(e){
+                    x = (e.clientX - window.innerWidth/2);
+                    y = (e.clientY - window.innerHeight/2);
+                   
+                    //console.log(e.clientX,e.clientY)
+                }
+                window.addEventListener("click",shutterClick,false);
+                function shutterClick(e){
+                    isLightOn=true;
+                    //light.style.visibility = "visible"
+                }
+                loop();
+            }
+            
+            function loop(){
+               mx +=(x - mx)*speed;
+               my +=(y - my)*speed;
+               h1.innerHTML="좌표: x= "+ x + ", y= "+ y;
+               if(isLightOn){
+                   light.style.visibility = "visible";
+                   setTimeout(function () {
+                        isLightOn= false;
+                   }, 1000);
+               }else{
+                   light.style.visibility = "hidden"
+               }
+               
+               //human.width('100px');
+               if(x>0){
+                    light.style.transform = "translate("+ (-(mx/4)-100) +"px,"+ (-(my/15)-250) +"px)";
+                    light.style.width = ""+(((Math.abs(x))/9.6) +600)+"px";
+                    human.style.transform = "translate("+ -(mx/3) +"px,"+ -(my/15) +"px)";
+                    human.style.width = ""+(((Math.abs(x))/9.6) +160)+"px";
+                    //camera.style.transform = "translate("+ (mx/70) +"px,"+ (my/70) +"px)";
+               }else{
+                    //
+                    //human.style.transform = "translate("+ -(mx/3) +"px,"+ -(my/200) +"px)";
+                    // human.style.width = ""+(220 - (((Math.abs(x))/9.6) +60))+"px";
+               }
+               camera.style.transform = "translate("+ (mx/4) +"px,"+ (my/4) +"px)";
+               //human.style.width = ""+(((Math.abs(x)+Math.abs(y))/7.21) +60)+"px";
+               
+               window.requestAnimationFrame(loop);
+            }
+        </script>
+    </HEAD>
+
+    <BODY>
+        <h1>Test</h1>
+        
+        <div class ="camera_set">
+            <img src="img/camera_m.png" class = "human" alt="닝겐">
+            
+        </div>
+        <img src="img/europe.jpg" class ="backgr" alt="벽">
+        <img src="img/video_recording.png" class = "camera" alt ="카메라">
+        
+        <div class="camera_set">
+            <img src="img/lens_flare_light.png" class="light" alt = "빛"> 
+        </div>
+        
+
+    </BODY>
+</HTML>>
