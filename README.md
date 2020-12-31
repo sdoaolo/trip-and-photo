@@ -1,8 +1,8 @@
 # trip-and-photo
 
-##______interactive web
+## ______interactive web
 
-###기획
+### 기획
 
 *concept*
 > 메인 주제는 “여행과 사진”이다.
